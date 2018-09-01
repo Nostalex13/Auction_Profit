@@ -11,10 +11,17 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextPane;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 public class GUI extends JFrame {
 
@@ -24,16 +31,42 @@ public class GUI extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI frame = new GUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+		String str = FindSavedName();
+		if(str.startsWith("123")) {
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						GUI frame = new GUI();
+						frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
+			});
+		}
+		else {
+			MainClass mainClass = new MainClass(str);
+			GUI2 gui2 = new GUI2(mainClass.profit);
+			gui2.setVisible(true);
+		}
+	}
+	/**
+	 * FindSavedName 
+	 */
+	private static String FindSavedName() {
+		String str = "123";
+		File file = new File("..\\config\\name.cfg");
+		System.out.println(file.exists());
+		if(file.exists()) {
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("..\\config\\name.cfg"),"UTF-8"))){
+				str = br.readLine();
 			}
-		});
+			catch(IOException ex){
+				System.out.println(ex.getMessage());
+				System.out.println("error");
+			}
+		}
+		return str;
 	}
 
 	/**
