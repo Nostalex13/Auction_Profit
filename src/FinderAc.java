@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class FinderAc {
@@ -20,12 +21,21 @@ public class FinderAc {
 		
 		listf(initialLocation.getPath(), fls);
 		
-		for (File file : fls) {
-			if (file.getPath().contains(characterName)) {
-				foundFile = file;
-				break;
+		try {
+			for (File file : fls) {
+				if (file.getPath().contains(characterName)) {
+					foundFile = file;
+					break;
+				}
 			}
+			if (foundFile == null) throw new FileNotFoundException();			
 		}
+		catch (FileNotFoundException ex) {
+			System.out.println("Character doesn`t exist");	
+			
+			return null;
+		}
+		
 		
 		String str = foundFile.getParentFile().getParentFile().getParentFile() + "\\SavedVariables\\Auctionator.lua";
 		if (new File(str).exists()) {

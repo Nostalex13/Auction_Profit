@@ -1,35 +1,28 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
-import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextPane;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.*;
 
 public class GUI extends JFrame {
 
-	private JPanel contentPane;
-
 	/**
-	 * Launch the application.
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	/**
+	 * 
 	 */
 	
 	public static void main(String[] args) {
@@ -46,14 +39,10 @@ public class GUI extends JFrame {
 				if (inputHandler.GetName() != null) 
 					ShowSecondGUI();
 				else {
-					GUI frame = new GUI(); // <-- Setting name
-					frame.setVisible(true);
+					InputName();
 				}
 			} else {
-				GUI frame = new GUI();
-				CreateBrowseDialog(frame); // <-- Setting path
-				frame.dispose();
-				
+				InputPath();
 				IsValidData(inputHandler);
 			}
 		} catch (Exception e) {
@@ -61,13 +50,26 @@ public class GUI extends JFrame {
 		}
 	}
 	
+	private static void InputName() {
+		GUI frame = new GUI(); // <-- Setting name
+		frame.setVisible(true);
+	}
+	
+	private static void InputPath() {
+		GUI frame = new GUI();
+		CreateBrowseDialog(frame); // <-- Setting path
+		frame.dispose();
+	}
+	
 	private static void ShowSecondGUI() {
 		System.out.println("Name: " + InputHandler.Instance.GetName());
-		System.out.println("Path: " + InputHandler.Instance.GetPath());
+		System.out.println("Path to WoW: " + InputHandler.Instance.GetPath());
 		
 		MainClass mainClass = new MainClass();
-		GUI2 gui2 = new GUI2(mainClass.profit);
-		gui2.setVisible(true);
+		if (mainClass.profit != null) {
+			GUI2 gui2 = new GUI2(mainClass.profit);
+			gui2.setVisible(true);			
+		}
 	}
 	
 	private static void CreateBrowseDialog(JFrame frame) {
@@ -99,7 +101,7 @@ public class GUI extends JFrame {
 		textPane.setEditable(false);
 		textPane.setText("\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u043C\u044F \u043B\u044E\u0431\u043E\u0433\u043E \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430 \u043D\u0430 \u0432\u0430\u0448\u0435\u043C \u0430\u043A\u043A\u0430\u0443\u043D\u0442\u0435");
 		
-		JButton btnComplite = new JButton("Complite");
+		JButton btnComplite = new JButton("Complete");
 		btnComplite.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

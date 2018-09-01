@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.*;
 import java.util.*;
@@ -19,34 +16,32 @@ public class InputHandler {
 	
 	private void SaveDataToFile() {
 		try {
-			if (configFile.exists()) {
-				FileOutputStream fos = new FileOutputStream(configFile, false); // with rewriting
-				ObjectOutputStream oos = new ObjectOutputStream(fos);
-				oos.writeObject(data);
-				oos.flush();
-				oos.close();			
-			} else 
-				System.out.println("File with data doesn`t exists");	
+			FileOutputStream fos = new FileOutputStream(configFile, false); // with rewriting
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(data);
+			oos.flush();
+			oos.close();			
 		}
 		catch (IOException ex) {
-			System.out.println("You fucked up in saving");
+			System.out.println("Couldn`t save data to file");
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void GetDataFromFile() {
 		try {
 			FileInputStream fis = new FileInputStream(configFile);
 			ObjectInputStream oin = new ObjectInputStream(fis);
 			data = (HashMap<String, String>) oin.readObject();
 			oin.close();
-			System.out.println(GetPath());
-			System.out.println(GetName());
+//			System.out.println(GetPath());
+//			System.out.println(GetName());
 		}
 		catch (IOException ex) {
-			System.out.println("You fucked up in reading");
+			System.out.println("Couldn`t get data from file");
 		}
 		catch (ClassNotFoundException ex) {
-			System.out.println("You fucked up in saving");
+			System.out.println("Couldn`t cast data");
 		}
 	}
 	

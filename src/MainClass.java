@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.regex.*;
 
 public class MainClass {
-	public String profit;
+	public String profit = null;
 
 	private HashMap<String, String> itemsMap = new HashMap<String, String>();
 	private float procCoeficient = 1.5f;
@@ -45,7 +45,8 @@ public class MainClass {
 		};
 
 		for (String item : items)
-			Cena(item);
+			if (!Cena(item))
+				return;
 		
 		InitializeWeed();
 
@@ -214,9 +215,10 @@ public class MainClass {
 			return value <= -9999 ? -9999 : value;
 	}
 
-	private void Cena(String item) {
+	private boolean Cena(String item) {
 		FinderAc finderAc = new FinderAc(InputHandler.Instance.GetName());
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(finderAc.GetPath()),"UTF-8")))
+		
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(finderAc.GetPath()),"UTF-8"))) 
 		{
 			String str = br.readLine();
 			while((!str.startsWith("AUCTIONATOR_PRICE_DATABASE = {")) & (str != null))
@@ -238,16 +240,23 @@ public class MainClass {
 
 			Pattern pat = Pattern.compile("[-]?[0-9]+(.[0-9]+)?");
 			Matcher matcher = pat.matcher(str);
+			
 			while (matcher.find()) {
 			    str = matcher.group();
 			}
-
+			
 			itemsMap.put(item, str);
+			
+			return true;
 		}
-		catch(IOException ex){
-			System.out.println(ex.getMessage());
+		catch(IOException ex) {
 			System.out.println("error");
 		}
+		catch(NullPointerException ex) {
+			System.out.println("Couldn`t read Auctionator.lua file");
+		}
+		
+		return false;
 	}
 
 	/*private void ShowAllItems() {

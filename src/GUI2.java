@@ -1,6 +1,3 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,23 +9,11 @@ import java.awt.Toolkit;
 
 public class GUI2 extends JFrame {
 
-	private JPanel contentPane;
-
 	/**
-	 * Launch the application.
+	 * 
 	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI2 frame = new GUI2();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
+	private static final long serialVersionUID = -2311325531073783462L;
+	private JPanel contentPane;
 
 	/**
 	 * Create the frame.
@@ -44,8 +29,9 @@ public class GUI2 extends JFrame {
 		
 		JTextPane textPane = new JTextPane();
 		textPane.setEditable(false);
-		//MainClass mainClass = new MainClass(null);
+
 		textPane.setText(profit);
+		
 		textPane.setBackground(new Color(240, 240, 240));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
