@@ -1,8 +1,9 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class InputHandler {
@@ -10,23 +11,42 @@ public class InputHandler {
 	public static final InputHandler Instance = new InputHandler();
 
 	private Map<String, String> data = new HashMap<String, String>();
-	private final File configFile = new File("./config/name.lua");
+	private final File configFile = new File("../config/name.lua");
 	
 	public InputHandler() {
-		//FindSavedName();
+		GetDataFromFile();
 	}
 	
-	private void FindSavedName() {
-		String str;
-		//System.out.println(file.exists());
-		if(configFile.exists()) {
-			try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(configFile.getPath()),"UTF-8"))){
-				str = br.readLine();
-				System.out.println("Read from file: " + str);
-			}
-			catch(IOException ex){
-				System.out.println("Error! Couldn`t read from file");
-			}
+	private void SaveDataToFile() {
+		try {
+			if (configFile.exists()) {
+				FileOutputStream fos = new FileOutputStream(configFile, false); // with rewriting
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				oos.writeObject(data);
+				oos.flush();
+				oos.close();			
+			} else 
+				System.out.println("File with data doesn`t exists");	
+		}
+		catch (IOException ex) {
+			System.out.println("You fucked up in saving");
+		}
+	}
+	
+	private void GetDataFromFile() {
+		try {
+			FileInputStream fis = new FileInputStream(configFile);
+			ObjectInputStream oin = new ObjectInputStream(fis);
+			data = (HashMap<String, String>) oin.readObject();
+			oin.close();
+			System.out.println(GetPath());
+			System.out.println(GetName());
+		}
+		catch (IOException ex) {
+			System.out.println("You fucked up in reading");
+		}
+		catch (ClassNotFoundException ex) {
+			System.out.println("You fucked up in saving");
 		}
 	}
 	
@@ -37,6 +57,8 @@ public class InputHandler {
 		} else {
 			data.put("Path", path);
 		}
+		
+		SaveDataToFile();
 	}
 	
 	public void SetName(String name) {
@@ -46,6 +68,8 @@ public class InputHandler {
 		} else {
 			data.put("Name", name);
 		}
+		
+		SaveDataToFile();
 	}
 	
 	public String GetName() {
