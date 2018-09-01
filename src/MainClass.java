@@ -182,7 +182,7 @@ public class MainClass {
 	}
 	private  void CraftFromLeather() {
 		double selfPrice = ParseItem("Окровавленная кость")*8+ParseItem("Поблескивающая чешуя")*10;
-		String str = "CraftFromTidespray: \t" + Math.round(CalculateProfit(25000, selfPrice)) + "%\n";
+		String str = "CraftFromLeather: \t" + Math.round(CalculateProfit(560000, selfPrice)) + "%\n";
 			profit += str;
 	}
 
