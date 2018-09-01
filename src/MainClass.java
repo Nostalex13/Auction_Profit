@@ -4,24 +4,21 @@ import java.util.regex.*;
 
 public class MainClass {
 	public String profit;
-	String name;
 
-	private  HashMap<String, String> itemsMap = new HashMap<String, String>();
-	private  float procCoeficient = 1.5f;
-	private  float bankTax = 0.95f;
+	private HashMap<String, String> itemsMap = new HashMap<String, String>();
+	private float procCoeficient = 1.5f;
+	private float bankTax = 0.95f;
 	
-    private  double anchorWeed;
-    private  double winterWeed;
-    private  double akundaWeed;
-    private  double riverbudWeed;
-    private  double seaWeed;
-    private  double sirenWeed;
-    private  double starWeed;
+    private double anchorWeed;
+    private double winterWeed;
+    private double akundaWeed;
+    private double riverbudWeed;
+    private double seaWeed;
+    private double sirenWeed;
+    private double starWeed;
    
 
-	public MainClass(String _name) {
-		name = _name;
-		System.out.println();
+	public MainClass() {
 		String[] items = {
 				"Якорь-трава",
 				"Поцелуй зимы",
@@ -47,14 +44,13 @@ public class MainClass {
 				
 		};
 
-		for (int i = 0; i < items.length; i++) {
-			Cena(items[i]);
-		}
-
+		for (String item : items)
+			Cena(item);
+		
 		InitializeWeed();
 
-
 		profit =  "";
+		
 		AgilityPot();
 		StaminaPot();
 		IntelligencePot();
@@ -62,12 +58,16 @@ public class MainClass {
 		ManaPot();
 		SoloTargetMeleePot();
 		SoloTargetRangePot();
+		
 		profit += "\n";
+		
 		StaminaFlask();
 		StrengthFlask();
 		IntelligenceFlask();
 		AgilityFlask();
+		
 		profit += "\n";
+		
 		CraftFromLeather();
 		CraftFromTidespray();
 	}
@@ -92,7 +92,7 @@ public class MainClass {
 	    profit += str;
 	}
 
-	private  void StaminaPot() {
+	private void StaminaPot() {
 	    double selfPrice = ParseItem("Боевое зелье выносливости") * bankTax;
 	    double reagentsPrice = (10 * seaWeed + 8 * starWeed) / procCoeficient;
 
@@ -100,7 +100,7 @@ public class MainClass {
 	    profit += str;
 	}
 
-	private  void IntelligencePot() {
+	private void IntelligencePot() {
 	    double selfPrice = ParseItem("Боевое зелье интеллекта") * bankTax;
 	    double reagentsPrice = (10 * sirenWeed + 8 * riverbudWeed) / procCoeficient;
 
@@ -108,7 +108,7 @@ public class MainClass {
 	    profit += str;
 	}
 
-	private  void StrengthPot() {
+	private void StrengthPot() {
 	    double selfPrice = ParseItem("Боевое зелье силы") * bankTax;
 	    double reagentsPrice = (10 * seaWeed + 8 * starWeed) / procCoeficient;
 
@@ -116,7 +116,7 @@ public class MainClass {
 	    profit += str;
 	}
 
-	private  void ManaPot() {
+	private void ManaPot() {
 	    double selfPrice = ParseItem("Зелье восполнения") * bankTax;
 	    double reagentsPrice = (10 * seaWeed + 8 * starWeed) / procCoeficient;
 
@@ -124,7 +124,7 @@ public class MainClass {
 	    profit += str;
 	}
 
-	private  void SoloTargetMeleePot() {
+	private void SoloTargetMeleePot() {
 	    double selfPrice = ParseItem("Зелье кровавого всплеска") * bankTax;
 	    double reagentsPrice = (10 * sirenWeed + 8 * riverbudWeed) / procCoeficient;
 
@@ -132,7 +132,7 @@ public class MainClass {
 	    profit += str;
 	}
 
-	private  void SoloTargetRangePot() {
+	private void SoloTargetRangePot() {
 	    double selfPrice = ParseItem("Зелье смертоносного прилива") * bankTax;
 	    double reagentsPrice = (10 * seaWeed + 8 * starWeed) / procCoeficient;
 
@@ -142,7 +142,7 @@ public class MainClass {
 
 //-------- FLASKS --------
 
-	private  void AgilityFlask() {
+	private void AgilityFlask() {
 	    double selfPrice = ParseItem("Настой стремительных течений") * bankTax;
 	    double reagentsPrice = (5 * anchorWeed + 10 * akundaWeed + 15 * seaWeed) / procCoeficient;
 
@@ -150,7 +150,7 @@ public class MainClass {
 	    profit += str;
 	}
 
-	private  void StrengthFlask() {
+	private void StrengthFlask() {
 	    double selfPrice = ParseItem("Настой силы прибоя") * bankTax;
 	    double reagentsPrice = (5 * anchorWeed + 10 * akundaWeed + 15 * sirenWeed) / procCoeficient;
 
@@ -158,7 +158,7 @@ public class MainClass {
 	    profit += str;
 	}
 
-	private  void IntelligenceFlask() {
+	private void IntelligenceFlask() {
 	    double selfPrice =ParseItem("Настой бездонных глубин") * bankTax;
 	    double reagentsPrice = (5 * anchorWeed + 10 * winterWeed + 15 * riverbudWeed) / procCoeficient;
 
@@ -166,7 +166,7 @@ public class MainClass {
 	    profit += str;
 	}
 
-	private  void StaminaFlask() {
+	private void StaminaFlask() {
 	    double selfPrice = ParseItem("Настой бескрайнего горизонта") * bankTax;
 	    double reagentsPrice = (5 * anchorWeed + 10 * winterWeed + 15 * starWeed) / procCoeficient;
 
@@ -174,13 +174,13 @@ public class MainClass {
 	    profit += str;
 	}
 	//-------- ANOTHER -------
-	private  void CraftFromTidespray() {
+	private void CraftFromTidespray() {
 		double selfPrice = ParseItem("Морской лен");
 			String str = "CraftFromTidespray: \t" + Math.round(CalculateProfit(25000, selfPrice)) + "%\n";
 			profit += str;
 
 	}
-	private  void CraftFromLeather() {
+	private void CraftFromLeather() {
 		double selfPrice = ParseItem("Окровавленная кость")*8+ParseItem("Поблескивающая чешуя")*10;
 		String str = "CraftFromLeather: \t" + Math.round(CalculateProfit(560000, selfPrice)) + "%\n";
 			profit += str;
@@ -188,15 +188,15 @@ public class MainClass {
 
 
 //
-	private  double ParseItem(String name) {
+	private double ParseItem(String name) {
 		return Double.parseDouble(itemsMap.get(name));
 	}
 	
-	private  double GetGoldAmount(double value) {
+	private double GetGoldAmount(double value) {
 		return value / 10000;
 	}
 
-	private  double CalculateProfit(double selfPrice, double reagentsPrice) {
+	private double CalculateProfit(double selfPrice, double reagentsPrice) {
 		double profit = 0;
 		if (selfPrice > reagentsPrice) {
 			profit = (selfPrice / reagentsPrice) * 100 - 100;
@@ -207,15 +207,15 @@ public class MainClass {
 		return CheckMaxBound(profit);
 	}
 
-	private  double CheckMaxBound(double value) {
+	private double CheckMaxBound(double value) {
 		if (value >= 0)
 			return value >= 9999 ? 9999 : value;
 		else
 			return value <= -9999 ? -9999 : value;
 	}
 
-	private  void Cena(String item) {
-		FinderAc finderAc = new FinderAc(name);
+	private void Cena(String item) {
+		FinderAc finderAc = new FinderAc(InputHandler.Instance.GetName());
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(finderAc.GetPath()),"UTF-8")))
 		{
 			String str = br.readLine();
@@ -250,7 +250,7 @@ public class MainClass {
 		}
 	}
 
-	/*private  void ShowAllItems() {
+	/*private void ShowAllItems() {
 		System.out.print(itemsMap);
 	}*/
 }

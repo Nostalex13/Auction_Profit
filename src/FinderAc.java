@@ -10,10 +10,15 @@ public class FinderAc {
 	}
 	
 	public String GetPath() {
+		return FindFile();
+	}
+	
+	private String FindFile() {
 		List<File> fls = new ArrayList<File>();
 		File foundFile = null;
+		File initialLocation = new File(InputHandler.Instance.GetPath() + "/WTF/Account/");
 		
-		listf("../WTF/Account", fls);
+		listf(initialLocation.getPath(), fls);
 		
 		for (File file : fls) {
 			if (file.getPath().contains(characterName)) {

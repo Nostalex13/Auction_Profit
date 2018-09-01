@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -30,45 +31,56 @@ public class GUI extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
-		String str = FindSavedName();
-		if(str.startsWith("123")) {
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						GUI frame = new GUI();
-						frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				IsValidData(InputHandler.Instance);
+			}
+		});
+	}
+	
+	private static void IsValidData(InputHandler inputHandler) {
+		try {
+			if(inputHandler.GetPath() != null) {
+				if (inputHandler.GetName() != null) 
+					ShowSecondGUI();
+				else {
+					GUI frame = new GUI(); // <-- Setting name
+					frame.setVisible(true);
 				}
-			});
-		}
-		else {
-			MainClass mainClass = new MainClass(str);
-			GUI2 gui2 = new GUI2(mainClass.profit);
-			gui2.setVisible(true);
+			} else {
+				GUI frame = new GUI();
+				CreateBrowseDialog(frame); // <-- Setting path
+				frame.dispose();
+				
+				IsValidData(inputHandler);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-	/**
-	 * FindSavedName 
-	 */
-	private static String FindSavedName() {
-		String str = "123";
-		File file = new File("..\\config\\name.cfg");
-		System.out.println(file.exists());
-		if(file.exists()) {
-			try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("..\\config\\name.cfg"),"UTF-8"))){
-				str = br.readLine();
-			}
-			catch(IOException ex){
-				System.out.println(ex.getMessage());
-				System.out.println("error");
-			}
-		}
-		return str;
+	
+	private static void ShowSecondGUI() {
+		System.out.println("Name: " + InputHandler.Instance.GetName());
+		System.out.println("Path: " + InputHandler.Instance.GetPath());
+		
+		MainClass mainClass = new MainClass();
+		GUI2 gui2 = new GUI2(mainClass.profit);
+		gui2.setVisible(true);
 	}
-
+	
+	private static void CreateBrowseDialog(JFrame frame) {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.showOpenDialog(frame);
+		
+		// Open an input stream
+		
+		File file = fileChooser.getSelectedFile();
+		InputHandler.Instance.SetPath(file.getPath()); // Setting path
+	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -81,7 +93,6 @@ public class GUI extends JFrame {
 		
 		JEditorPane charName = new JEditorPane();
 		
-		
 		JTextPane textPane = new JTextPane();
 		textPane.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textPane.setBackground(new Color(240, 240, 240));
@@ -92,13 +103,14 @@ public class GUI extends JFrame {
 		btnComplite.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MainClass mainClass = new MainClass(charName.getText());
+				InputHandler.Instance.SetName(charName.getText()); // Setting name
 				setVisible(false);
 				dispose();
-				GUI2 gui2 = new GUI2(mainClass.profit);
-				gui2.setVisible(true);
+				
+				ShowSecondGUI();
 			}
 		});
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
